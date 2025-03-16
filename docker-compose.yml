@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: url_shortener_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: url_db
+    ports:
+      - "5432:5432"
+
+  shorten-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.shorten
+    container_name: shorten_service
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db/url_db
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  expand-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.expand
+    container_name: expand_service
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db/url_db
+    ports:
+      - "8001:8001"
+    depends_on:
+      - db
