@@ -1,4 +1,4 @@
-version: '3.8'
+#version: '3.8'
 
 services:
   db:
@@ -14,7 +14,7 @@ services:
   shorten-service:
     build:
       context: .
-      dockerfile: Dockerfile.shorten
+      dockerfile: ShorteningService.dockerfile
     container_name: shorten_service
     environment:
       DATABASE_URL: postgresql://postgres:postgres@db/url_db
@@ -26,7 +26,7 @@ services:
   expand-service:
     build:
       context: .
-      dockerfile: Dockerfile.expand
+      dockerfile: ExpandingService.dockerfile
     container_name: expand_service
     environment:
       DATABASE_URL: postgresql://postgres:postgres@db/url_db
